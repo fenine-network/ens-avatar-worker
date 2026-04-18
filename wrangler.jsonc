@@ -41,15 +41,55 @@
     },
     "env": {
         "staging": {
+            "r2_buckets": [
+                {
+                    "binding": "AVATAR_BUCKET",
+                    "bucket_name": "avatar-storage",
+                    "preview_bucket_name": "preview-avatar-storage"
+                },
+                {
+                    "binding": "HEADER_BUCKET",
+                    "bucket_name": "header-storage",
+                    "preview_bucket_name": "preview-header-storage"
+                }
+            ],
             "vars": {
                 "ENVIRONMENT": "staging",
-                "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}"
+                "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}",
+                "LOCALHOST_ENS_REGISTRY": "",
+                "LOCALHOST_ENS_NAME_WRAPPER": "",
+                "LOCALHOST_ENS_UNIVERSAL_RESOLVER": "",
+                "LOCALHOST_ENS_PUBLIC_RESOLVER": "",
+                "LOCALHOST_ENS_BASE_REGISTRAR_IMPLEMENTATION": "",
+                "LOCALHOST_ENS_ETH_REGISTRAR_CONTROLLER": "",
+                "LOCALHOST_ENS_REVERSE_REGISTRAR": "",
+                "LOCALHOST_MULTICALL3": ""
             }
         },
         "production": {
+            "r2_buckets": [
+                {
+                    "binding": "AVATAR_BUCKET",
+                    "bucket_name": "avatar-storage",
+                    "preview_bucket_name": "preview-avatar-storage"
+                },
+                {
+                    "binding": "HEADER_BUCKET",
+                    "bucket_name": "header-storage",
+                    "preview_bucket_name": "preview-header-storage"
+                }
+            ],
             "vars": {
                 "ENVIRONMENT": "production",
-                "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}"
+                "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}",
+                "LOCALHOST_ENS_REGISTRY": "",
+                "LOCALHOST_ENS_NAME_WRAPPER": "",
+                "LOCALHOST_ENS_UNIVERSAL_RESOLVER": "",
+                "LOCALHOST_ENS_PUBLIC_RESOLVER": "",
+                "LOCALHOST_ENS_BASE_REGISTRAR_IMPLEMENTATION": "",
+                "LOCALHOST_ENS_ETH_REGISTRAR_CONTROLLER": "",
+                "LOCALHOST_ENS_REVERSE_REGISTRAR": "",
+                "LOCALHOST_MULTICALL3": ""
             }
         }
     }
