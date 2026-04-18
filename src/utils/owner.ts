@@ -1,4 +1,5 @@
 import { EnsPublicClient } from "./chains";
+import { getChainNativeTld } from "@fenine/ensjs/contracts";
 
 export const getOwnerAndAvailable = async ({
   client,
@@ -8,11 +9,12 @@ export const getOwnerAndAvailable = async ({
   name: string;
 }) => {
   const labels = name.split(".");
-  const is2LDDotEth = labels.length === 2 && labels.at(-1) === "eth";
+  const nativeTld = getChainNativeTld(client.chain);
+  const is2LDNative = labels.length === 2 && labels.at(-1) === nativeTld;
 
   const [ownership, available] = await Promise.all([
     client.getOwner({ name }),
-    is2LDDotEth ? client.getAvailable({ name }) : undefined,
+    is2LDNative ? client.getAvailable({ name }) : undefined,
   ]);
 
   return {

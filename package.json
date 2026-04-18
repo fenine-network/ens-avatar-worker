@@ -1,19 +1,19 @@
 {
-    "name": "ens-avatar-worker-v2",
+    "name": "fenine-avatar-upload-worker",
     "scripts": {
         "dev": "wrangler dev",
         "deploy": "wrangler deploy --minify",
         "generate-types": "wrangler types",
         "type-check": "pnpm generate-types && tsc",
         "lint": "eslint -c eslint.config.mjs",
-        "test": "vitest"
+        "test": "vitest run"
     },
     "dependencies": {
-        "@ensdomains/ensjs": "^4.0.2",
+        "@fenine/ensjs": "file:../ensjs/packages/ensjs",
         "@hono/valibot-validator": "^0.5.2",
         "hono": "^4.7.4",
         "valibot": "1.0.0-rc.4",
-        "viem": "^2.23.10"
+        "viem": "2.19.4"
     },
     "devDependencies": {
         "@cloudflare/vitest-pool-workers": "^0.8.0",

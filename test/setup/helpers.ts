@@ -1,6 +1,6 @@
 import { EnsPublicClient } from "@/utils/chains";
 import { typedDataParameters } from "@/utils/eth";
-import { createEnsPublicClient, createEnsWalletClient } from "@ensdomains/ensjs";
+import { createEnsPublicClient, createEnsWalletClient } from "@fenine/ensjs";
 import { Address, Hex, http } from "viem";
 
 import {

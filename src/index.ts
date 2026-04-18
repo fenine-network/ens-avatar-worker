@@ -9,10 +9,14 @@ const PROD_ALLOWED_ORIGIN_SUFFIXES = [
   "ens.dev",
   "ens-cf.workers.dev",
   "ens-app-v3.pages.dev",
+  "fenine.codes",
+  "fenames.xyz",
   "grails.app",
   "efp.app",
   "ethleaderboard.com"
 ] as const;
+
+const PROD_ALLOWED_ORIGIN_HOSTS = ["localhost", "127.0.0.1"] as const;
 
 const app = createApp();
 app.use(
@@ -30,7 +34,10 @@ app.use(
           const allows = (host: string, suffix: string) =>
             host === suffix || host.endsWith(`.${suffix}`);
 
-          if (PROD_ALLOWED_ORIGIN_SUFFIXES.some(suffix => allows(hostname, suffix))) {
+          if (
+            PROD_ALLOWED_ORIGIN_HOSTS.includes(hostname as (typeof PROD_ALLOWED_ORIGIN_HOSTS)[number])
+            || PROD_ALLOWED_ORIGIN_SUFFIXES.some(suffix => allows(hostname, suffix))
+          ) {
             return requestOrigin; // reflect approved origin
           }
         }

@@ -1,6 +1,6 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "avatar-upload",
+    "name": "fenine-avatar-upload",
     "main": "src/index.ts",
     "compatibility_date": "2025-02-18",
     // "compatibility_flags": [
@@ -28,17 +28,28 @@
         }
     ],
     "vars": {
-        "ENVIRONMENT": "dev"
+        "ENVIRONMENT": "dev",
+        "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}",
+        "LOCALHOST_ENS_REGISTRY": "",
+        "LOCALHOST_ENS_NAME_WRAPPER": "",
+        "LOCALHOST_ENS_UNIVERSAL_RESOLVER": "",
+        "LOCALHOST_ENS_PUBLIC_RESOLVER": "",
+        "LOCALHOST_ENS_BASE_REGISTRAR_IMPLEMENTATION": "",
+        "LOCALHOST_ENS_ETH_REGISTRAR_CONTROLLER": "",
+        "LOCALHOST_ENS_REVERSE_REGISTRAR": "",
+        "LOCALHOST_MULTICALL3": ""
     },
     "env": {
         "staging": {
             "vars": {
-                "ENVIRONMENT": "staging"
+                "ENVIRONMENT": "staging",
+                "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}"
             }
         },
         "production": {
             "vars": {
-                "ENVIRONMENT": "production"
+                "ENVIRONMENT": "production",
+                "WEB3_ENDPOINT_MAP": "{\"fenine\":\"https://rpc.fene.app\",\"mainnet\":\"https://eth.llamarpc.com\",\"sepolia\":\"https://ethereum-sepolia-rpc.publicnode.com\"}"
             }
         }
     }

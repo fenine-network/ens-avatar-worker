@@ -18,10 +18,7 @@ vi.mock("@/utils/owner", () => ({
 // Test constants
 const MOCK_NAME = "test.eth";
 const NORMALIZED_NAME = normalize("test.eth");
-// Note: holesky is excluded from tests because viem handles chainId differently for holesky
-// during signature verification. While mainnet/goerli/sepolia don't add chainId to the domain
-// when not explicitly provided, holesky does, causing cross-chain signature verification to fail.
-const MOCK_NETWORKS = ["mainnet", "goerli", "sepolia"] as const;
+const MOCK_NETWORKS = ["mainnet", "sepolia", "fenine"] as const;
 const MAX_IMAGE_SIZE = 1024 * 512;
 
 describe("Avatar Routes", () => {
@@ -165,23 +162,23 @@ describe("Avatar Routes", () => {
     test("updates an existing image with a new one", async () => {
       // Step 1: Put the initial image into storage
       const initialImage = new Uint8Array([1, 2, 3]);
-      await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("goerli", MOCK_NAME), initialImage, {
+      await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("sepolia", MOCK_NAME), initialImage, {
         httpMetadata: { contentType: "image/jpeg" },
       });
 
       // Get the initial image
-      let res = await app.request(`/goerli/${MOCK_NAME}`, {}, env);
+      let res = await app.request(`/sepolia/${MOCK_NAME}`, {}, env);
       expect(res.status).toBe(200);
       expect(new Uint8Array(await res.arrayBuffer())).toEqual(initialImage);
 
       // Step 2: Put a new image with different content
       const updatedImage = new Uint8Array([4, 5, 6, 7, 8]);
-      await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("goerli", MOCK_NAME), updatedImage, {
+      await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("sepolia", MOCK_NAME), updatedImage, {
         httpMetadata: { contentType: "image/jpeg" },
       });
 
       // Verify updated image is returned
-      res = await app.request(`/goerli/${MOCK_NAME}`, {}, env);
+      res = await app.request(`/sepolia/${MOCK_NAME}`, {}, env);
       expect(res.status).toBe(200);
       expect(res.headers.get("Content-Length")).toBe(updatedImage.length.toString());
       expect(new Uint8Array(await res.arrayBuffer())).toEqual(updatedImage);
@@ -257,13 +254,13 @@ describe("Avatar Routes", () => {
       // This test ensures that files are properly isolated by network -
       // each network should have its own storage space and not interfere with others
       const mainnetImage = new Uint8Array([1, 2, 3]);
-      const goerliImage = new Uint8Array([4, 5, 6]);
+      const sepoliaImage = new Uint8Array([4, 5, 6]);
 
       await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("mainnet", MOCK_NAME), mainnetImage, {
         httpMetadata: { contentType: "image/jpeg" },
       });
 
-      await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("goerli", MOCK_NAME), goerliImage, {
+      await env.AVATAR_BUCKET.put(media.MEDIA_BUCKET_KEY.registered("sepolia", MOCK_NAME), sepoliaImage, {
         httpMetadata: { contentType: "image/jpeg" },
       });
 
@@ -273,11 +270,11 @@ describe("Avatar Routes", () => {
       expect(res.status).toBe(200);
       expect(resImage).toEqual(mainnetImage);
 
-      // Test goerli network
-      res = await app.request(`/goerli/${MOCK_NAME}`, {}, env);
+      // Test sepolia network
+      res = await app.request(`/sepolia/${MOCK_NAME}`, {}, env);
       expect(res.status).toBe(200);
       resImage = new Uint8Array(await res.arrayBuffer());
-      expect(resImage).toEqual(goerliImage);
+      expect(resImage).toEqual(sepoliaImage);
 
       // Files should be isolated by network
       expect(resImage).not.toEqual(mainnetImage);

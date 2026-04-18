@@ -1,19 +1,76 @@
-import { addEnsContracts, createEnsPublicClient } from "@ensdomains/ensjs";
-import { mainnet, goerli, sepolia, holesky } from "viem/chains";
+import deployments from "../../../ens-contracts/deployments/fenine/deployments.json";
+
+import { addEnsContracts, createEnsPublicClient } from "@fenine/ensjs";
+import { defineChain, createClient, http } from "viem";
+import { mainnet, sepolia } from "viem/chains";
+import type { Address } from "viem";
 import { BaseEnv } from "./hono";
 import { createMiddleware } from "hono/factory";
-import { http } from "viem";
 import { addLocalhostEnsContracts } from "./localhost-chain";
-import { ensPublicActions, ensSubgraphActions } from "@ensdomains/ensjs";
-import { createClient } from "viem";
+import { ensPublicActions, ensSubgraphActions } from "@fenine/ensjs";
 import { Context } from "hono";
 import { getErrorMessage } from "./error";
 
+const fenineChain = defineChain({
+  id: deployments._chainId,
+  name: "Fenine",
+  network: "fenine",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Fenine",
+    symbol: "FEN",
+  },
+  rpcUrls: {
+    default: {
+      http: [deployments._rpc],
+    },
+    public: {
+      http: [deployments._rpc],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Fenine Explorer",
+      url: "https://explorer.fene.app",
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: "0xcA11bde05977b3631167028862bE2a173976CA11" as Address,
+    },
+  },
+});
+
+const fenineWithEns = addEnsContracts(fenineChain, {
+  contracts: {
+    ensRegistry: { address: deployments.ENSRegistry as Address },
+    ensBaseRegistrarImplementation: {
+      address: deployments.BaseRegistrarImplementation as Address,
+    },
+    ensEthRegistrarController: { address: deployments.FENRegistrarController as Address },
+    ensNameWrapper: { address: deployments.FENNameWrapper as Address },
+    ensPublicResolver: { address: deployments.PublicResolver as Address },
+    ensReverseRegistrar: { address: deployments.ReverseRegistrar as Address },
+    ensDefaultReverseRegistrar: {
+      address: deployments.DefaultReverseRegistrar as Address,
+    },
+    ensUniversalResolver: { address: deployments.UniversalResolver as Address },
+  },
+  subgraphs: {
+    ens: {
+      url: "https://subgraph.fenine.codes/subgraphs/name/fenine/fns",
+    },
+  },
+  ens: {
+    nativeTld: deployments._tld.replace(/^\./, ""),
+    minRegistrationLength: 3,
+  },
+});
+
 const baseChains = [
+  fenineWithEns,
   addEnsContracts(mainnet),
-  addEnsContracts(goerli),
   addEnsContracts(sepolia),
-  addEnsContracts(holesky),
 ] as const;
 
 // Note: localhost chain will be dynamically added based on environment
@@ -22,7 +79,7 @@ export const chains = baseChains;
 export type Chain =
   | (typeof baseChains)[number]
   | ReturnType<typeof addLocalhostEnsContracts>;
-export type Network = "mainnet" | "goerli" | "sepolia" | "holesky" | "localhost";
+export type Network = "fenine" | "mainnet" | "sepolia" | "localhost";
 export type EnsPublicClient = ReturnType<typeof createEnsPublicClient>;
 
 const isDev = (c: Context<BaseEnv & NetworkMiddlewareEnv, string, object>) => c.env.ENVIRONMENT === "dev";
