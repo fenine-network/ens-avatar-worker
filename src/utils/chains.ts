@@ -1,4 +1,4 @@
-import deployments from "../../../ens-contracts/deployments/fenine/deployments.json";
+import deployments from "@fenine/ens-contracts/deployments/fenine/deployments.json";
 
 import { addEnsContracts, createEnsPublicClient } from "@fenine/ensjs";
 import { defineChain, createClient, http } from "viem";

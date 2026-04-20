@@ -9,7 +9,8 @@
         "test": "vitest run"
     },
     "dependencies": {
-        "@fenine/ensjs": "file:../ensjs/packages/ensjs",
+        "@fenine/ens-contracts": "1.7.0",
+        "@fenine/ensjs": "4.2.2",
         "@hono/valibot-validator": "^0.5.2",
         "hono": "^4.7.4",
         "valibot": "1.0.0-rc.4",

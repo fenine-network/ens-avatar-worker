@@ -92,7 +92,7 @@
                 "LOCALHOST_MULTICALL3": ""
             }
         }
-    }
+    },
     // "d1_databases": [
     //   {
     //     "binding": "MY_DB",
@@ -103,8 +103,11 @@
     // "ai": {
     //   "binding": "AI"
     // },
-    // "observability": {
-    //   "enabled": true,
-    //   "head_sampling_rate": 1
-    // }
+    "observability": {
+        "logs": {
+            "enabled": true,
+            "invocation_logs": true,
+            "head_sampling_rate": 1
+        }
+    }
 }
